@@ -15,9 +15,9 @@ Koenig, Tolbert Lanston…
   set in the app (My account → Settings → Paper width): tickets printed 64 mm wide and off-center there.
   Text now uses 48 columns in font A and 64 in font B, and images narrower than the paper are centered
   when printed, so drawn blocks keep their 512-dot layout. Without the setting, nothing changes.
-- **`PRINTR_HEADER_STYLE`** for printers whose inverted section headers come out as a solid black band
-  (the white letters fill in), also set in the app (Settings → Section headers): `thin` keeps the band
-  without bold, `plain` prints the title in bold over a rule, with no black band. Default unchanged.
+- **`PRINTR_HEADER_STYLE=plain`** for printers that garble reversed text (section headers come out as an
+  unreadable black band), also set in the app (Settings → Section headers): the title is printed in bold
+  over a rule, with no black band. Without the setting, nothing changes.
 
 ### Changed
 - **Nonogram**: the grid is larger (cells sized from the clues, about 41 dots instead of 30, digits at
