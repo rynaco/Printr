@@ -17,7 +17,7 @@ Koenig, Tolbert Lanston…
   when printed, so drawn blocks keep their 512-dot layout. Without the setting, nothing changes.
 
 ### Fixed
-- **Mental math, anagram and glitch lines on 576-dot paper** (`PRINTR_PAPER_WIDTH=576`): they were laid
+- **Mental math, anagram, categories, word search and glitch lines on 576-dot paper** (`PRINTR_PAPER_WIDTH=576`): they were laid
   out for 42 columns and came out off-center. They now follow the paper's column count. Nothing changes
   on 512-dot paper.
 
