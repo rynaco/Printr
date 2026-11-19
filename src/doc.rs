@@ -146,15 +146,25 @@ impl Doc {
         self
     }
 
-    /// Bandeau de section : texte inversé sur toute la largeur.
+    /// Bandeau de section : texte inversé sur toute la largeur, sauf avec `PRINTR_HEADER_STYLE`
+    /// (`thin` : inversé sans gras ; `plain` : titre en gras souligné d'un trait, sans aplat noir),
+    /// pour les imprimantes dont l'aplat noir bave et rend le titre illisible.
     pub fn header(&mut self, title: &str) -> &mut Self {
-        let style = Style::default().bold().reverse();
-        let title = cp858::normalize(title).to_uppercase();
+        let plain = header_style() == HeaderStyle::Plain;
+        let style = match header_style() {
+            HeaderStyle::Inverted => Style::default().bold().reverse(),
+            HeaderStyle::Thin => Style::default().reverse(),
+            HeaderStyle::Plain => Style::default().bold(),
+        };
+        // Le bandeau inversé est complété d'espaces pour couvrir toute la largeur.
         let width = style.columns();
-        let title: String = title.chars().take(width).collect();
+        let title: String = cp858::normalize(title).to_uppercase().chars().take(width).collect();
         let pad = width - title.chars().count();
         let line = format!("{}{}{}", " ".repeat(pad / 2), title, " ".repeat(pad - pad / 2));
         self.ops.push(Op::Line { text: line, style });
+        if plain {
+            self.rule('=');
+        }
         self
     }
 
@@ -376,6 +386,26 @@ fn qr_modules(len: usize) -> u32 {
         63..=84 => 37,
         _ => 45,
     }
+}
+
+/// Apparence des bandeaux de section (`PRINTR_HEADER_STYLE`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum HeaderStyle {
+    /// Gras, blanc sur noir (défaut).
+    Inverted,
+    /// Blanc sur noir sans gras : les lettres se bouchent moins sur les têtes qui chauffent fort.
+    Thin,
+    /// Gras, noir sur blanc, souligné d'un trait.
+    Plain,
+}
+
+fn header_style() -> HeaderStyle {
+    static STYLE: std::sync::OnceLock<HeaderStyle> = std::sync::OnceLock::new();
+    *STYLE.get_or_init(|| match std::env::var("PRINTR_HEADER_STYLE").as_deref().map(str::trim) {
+        Ok("thin") => HeaderStyle::Thin,
+        Ok("plain") => HeaderStyle::Plain,
+        _ => HeaderStyle::Inverted,
+    })
 }
 
 /// Ligne d'aperçu : la police A (42 colonnes) est centrée sur la largeur du papier (56),
