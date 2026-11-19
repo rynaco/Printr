@@ -11,6 +11,10 @@ ignore = [
     # paste : macro abandonnée par son auteur, sans faille connue ; tirée par les décodeurs EXR et
     # AVIF de la bibliothèque image, dont Printr ne se sert pas.
     { id = "RUSTSEC-2024-0436", reason = "abandonnée, sans faille ; via image (EXR, AVIF)" },
+    # chrono et chrono-tz : déclarées sans mainteneur, sans faille connue ni version corrigée ; utilisées
+    # directement et par rss, feed-rs, rrule et sgp4. À retirer le jour où Printr passe à jiff ou time.
+    { id = "RUSTSEC-2026-0543", reason = "chrono sans mainteneur, sans faille ; pas de version corrigée" },
+    { id = "RUSTSEC-2026-0555", reason = "chrono-tz sans mainteneur, sans faille ; pas de version corrigée" },
 ]
 
 [licenses]

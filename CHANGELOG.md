@@ -23,6 +23,11 @@ Koenig, Tolbert Lanston…
 - **Nonogram**: the grid is larger (cells sized from the clues, about 41 dots instead of 30, digits at
   scale 3) and centered; it used to sit against the right edge with a wide empty margin on the left.
 
+### Fixed
+- **Mental math, anagram, categories, word search and glitch lines on 576-dot paper** (`PRINTR_PAPER_WIDTH=576`): they were laid
+  out for 42 columns and came out off-center. They now follow the paper's column count. Nothing changes
+  on 512-dot paper.
+
 ## [2.0.2] “Mergenthaler” - 2026-10-26
 
 ### Fixed
